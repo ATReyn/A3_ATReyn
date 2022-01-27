@@ -1,0 +1,108 @@
+---
+title: "A3_ATReyn"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Project Info
+
+Author: ATReyn
+Date: 26/01/2022
+GitHub Repository: https://github.com/ATReyn/A3_ATReyn.git
+
+# Setup
+```{r, echo = F}
+
+# Loading data:
+Fallo <- read.csv("./InputData/FallopiaData.csv")
+
+#Loading libraries:
+library(dplyr)
+library(data.table)
+
+# Checking data:
+head(Fallo)
+
+str(Fallo)
+
+
+```
+
+# Reorganising Data
+
+```{r, echo = F}
+
+# Reorganising data:
+dat <- Fallo %>% 
+  filter(Total > 60) %>% # Remove Taxon biomass < 60
+  mutate(TotalG = Total/1000) %>% 
+  select(TotalG, Taxon, Scenario, Nutrients) # Reorder columns and remove unnecessary columns
+  
+# Checking data to verify above has worked:
+head(dat)
+
+```
+
+# Writing a Custom Function
+
+Custom function:
+```{r, echo = F}
+
+dat_function <- function(column_dat, string) {
+  
+# Calculate mean if string == "Average"
+  if(string == "Average") { 
+    print(mean(column_dat)) 
+  
+# Calculate sum if string == "Sum"    
+    } else if(string == "Sum") {
+    print(sum(column_dat)) 
+  
+# Tally number of observations if string == "Observations"
+      } else if(string == "Observations") {
+    print(ncol(t(column_dat)))
+  
+# Print error message is string == anything else        
+        } else(print("Error"))
+}
+
+
+```
+
+Counting the total number of observations in the "Taxon" column:
+```{r}
+
+dat_function(column_dat = dat$Taxon, string = "Observations")
+
+
+```
+
+Calculating the average TotalG for each of the two Nutrient conditions:
+```{r}
+# Grouping data:
+dat_low <- dat %>% 
+  filter(Nutrients == "low")
+
+dat_high <- dat %>% 
+  filter(Nutrients == "high") 
+
+# Printing averages:
+print(paste("Low Nutrient Mean", (dat_function(column_dat = dat_low$TotalG, string = "Average"))))
+
+print(paste("High Nutrient Mean", (dat_function(column_dat = dat_high$TotalG, string = "Average"))))
+
+
+```
+
+# Saving Wrangled Data
+```{r, echo = F}
+
+write.csv(dat, "./Output/WrangledData.csv", row.names = FALSE)
+
+
+```
+
+
