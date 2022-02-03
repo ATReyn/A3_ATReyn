@@ -1,5 +1,5 @@
 ---
-title: "A3_ATReyn"
+title: "A3_Reynolds_Alyssa"
 output: html_document
 ---
 
@@ -9,7 +9,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Project Info
 
-Author: ATReyn
+Author: Alyssa Reynolds (ATReyn)
+Student Number: 20054309
 Date: 26/01/2022
 GitHub Repository: https://github.com/ATReyn/A3_ATReyn.git
 
@@ -21,7 +22,6 @@ Fallo <- read.csv("./InputData/FallopiaData.csv")
 
 #Loading libraries:
 library(dplyr)
-library(data.table)
 
 # Checking data:
 head(Fallo)
@@ -104,5 +104,17 @@ write.csv(dat, "./Output/WrangledData.csv", row.names = FALSE)
 
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
